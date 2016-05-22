@@ -3,8 +3,8 @@
   angular
     .module('doc.features')
     .factory('Records', ['$resource', function ($resource) {
-      var Records = $resource('/records',
-        {},
+      var Records = $resource('/records/:category_id',
+        {category_id: '@category'},
         {
           query: {
             isArray: true

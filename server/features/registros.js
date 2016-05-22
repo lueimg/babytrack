@@ -55,7 +55,23 @@ rutas.route('/')
     });
   });
 
+rutas.route('/:id')
+  .get(function (req, res) {
+    var query = 'select r.*, c.`name` category ' +
+      'from records r ' +
+      'inner join categories c on c.id = r.category_id ' +
+      ' where r.status = 1 and r.category_id = ' + req.params.id +
+      ' order by r.id desc limit 20';
 
 
+    db.query(query, function (err, rows) {
+      if (err) {
+        printLog(err);
+        res.status(500).send({code: 500, msg: 'Internal Server Error', dev: err});
+      }
+
+      res.json(rows);
+    });
+  });
 
 module.exports = rutas;
